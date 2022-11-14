@@ -9,4 +9,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     boolean existsByIsbn(String isbn);
 
     Book findFirstBy();
+
+    void delete(Book entity);
 }
