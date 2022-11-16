@@ -2,20 +2,21 @@ package com.example.libraryapi.api.resource;
 
 import com.example.libraryapi.api.dto.BookDTO;
 import com.example.libraryapi.api.dto.LoanDTO;
-import com.example.libraryapi.api.exception.ApiErrors;
-import com.example.libraryapi.exception.BusinessException;
 import com.example.libraryapi.model.entity.Book;
 import com.example.libraryapi.model.entity.Loan;
 import com.example.libraryapi.service.BookService;
 import com.example.libraryapi.service.LoanService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -26,6 +27,8 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/books")
 @RequiredArgsConstructor
+@Api("Book API") //dando título no swagger
+@Slf4j // anotação faz com que tenhamos um objeto de log para fazer um log qualquer
 public class BookController {
 
     private final BookService service;
@@ -35,9 +38,10 @@ public class BookController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public BookDTO create(@RequestBody @Valid BookDTO dto){
-
-        // A anotação @valid serve para que o @NotNull sejam levados em conta
+    @ApiOperation("CREATE A BOOK") // dando nome no swagger
+    public BookDTO create(@RequestBody @Valid BookDTO dto){ // A anotação @valid serve para que o @NotNull sejam levados em conta
+        // criando um log -> criando um livro para o isbn ____
+        log.info("creating a book for isbn: {}", dto.getIsbn());
 
         // de dto para book
         Book book = modelMapper.map(dto, Book.class);
@@ -50,9 +54,13 @@ public class BookController {
     }
 
     @GetMapping("/{id}")
+    @ApiOperation("OBTAINS A BOOK DETAILS BY ID") // dando nome no swagger
     public BookDTO get(@PathVariable Long id){
 
-        //procura o livro
+        // informando que estou obtando os detalhes de livro de id ____
+        log.info("obtaining details for book id: {}", id);
+
+        // procura o livro
         // -> se existir retorna o dto dele
         // -> senão retornar uma exceção com cod not found
         return service.getById(id)
@@ -63,7 +71,14 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ApiOperation("DELETE A BOOK BY ID") // dando nome no swagger
+    @ApiResponses({
+            @ApiResponse(code = 204, message = "Book seccesfully deleted")
+    })
     public void delete( @PathVariable Long id ){
+
+        // informando que estou deletando livro de id ____
+        log.info("deleting book of id: {}", id);
 
         Book book = service.getById(id).orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND) );
 
@@ -72,7 +87,11 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
+    @ApiOperation("UPDATE A BOOK BY ID") // dando nome no swagger
     public BookDTO update( @PathVariable Long id, @RequestBody BookDTO dto){
+
+        // informando que estou updating livro de id ____
+        log.info("updating book of id: {}", id);
 
         // verificando se o livro existe na base
         //se existir atualiza e retorna o dto
@@ -97,6 +116,7 @@ public class BookController {
     }
 
     @GetMapping
+    @ApiOperation("FIND BOOKS BY PARAMS") // dando nome no swagger
     public Page<BookDTO> find(BookDTO dto, Pageable pageRequest){
 
         Book filter = modelMapper.map(dto, Book.class);
@@ -117,6 +137,7 @@ public class BookController {
 
     //esse será um subrecurso -> pelo id de um livro, vou trazer de que emprestimos ele faz parte
     @GetMapping("/{id}/loans")
+    @ApiOperation("OBTAINS LOANS OF A BOOK BY ITS ID") // dando nome no swagger
     public Page<LoanDTO> loansByBook(@PathVariable Long id, Pageable pageable){
 
         Book book = service.getById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));

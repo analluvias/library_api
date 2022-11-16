@@ -1,7 +1,6 @@
 package com.example.libraryapi.api.exception;
 
 import com.example.libraryapi.exception.BusinessException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 
 import java.util.ArrayList;
