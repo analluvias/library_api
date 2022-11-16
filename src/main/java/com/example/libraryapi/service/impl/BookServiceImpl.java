@@ -69,6 +69,6 @@ public class BookServiceImpl implements BookService {
     }
 
     public Optional<Book> getBookByIsbn(String isbn) {
-        return null;
+        return repository.findByIsbn(isbn);
     }
 }

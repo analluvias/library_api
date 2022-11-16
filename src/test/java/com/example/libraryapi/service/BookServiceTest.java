@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Example;
@@ -23,6 +24,9 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -215,7 +219,7 @@ class BookServiceTest {
     }
 
     @Test
-    @DisplayName("Deve filtrar livro")
+    @DisplayName("Deve filtrar livros PELAS PROPRIEDADES")
     void findBookTest(){
 
         //cenário
@@ -241,6 +245,31 @@ class BookServiceTest {
         assertThat( result.getPageable().getPageSize() ).isEqualTo( 10 );
 
 
+    }
+
+
+    @Test
+    @DisplayName("deve obter um livro pelo isbn")
+    void getBookByIsbnTest(){
+
+        //cenário
+        String isbn = "123";
+
+        //simulando que o repo retornou o livro que existe na base
+        Mockito.when( repository.findByIsbn(isbn) )
+                .thenReturn( Optional.of( Book.builder().id(1L).isbn(isbn).build() ) );
+
+
+        //execução
+        Optional<Book> book = service.getBookByIsbn(isbn);
+
+
+        //verificação
+        assertThat(book.isPresent()).isTrue();
+        assertThat(book.get().getId()).isEqualTo(1L);
+        assertThat(book.get().getIsbn()).isEqualTo( isbn );
+        // verificando que findByIsbn() foi chamado uma vez
+        verify( repository, times(1)).findByIsbn(isbn);
     }
 
     private static Book createBook() {

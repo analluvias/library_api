@@ -1,6 +1,5 @@
 package com.example.libraryapi.api.dto;
 
-import javax.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -10,17 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoanDTO {
+public class LoanFilterDTO {
 
-    private Long id;
-
-    @NotEmpty
     private String isbn;
-
-    @NotEmpty
     private String customer;
-
-    @NotEmpty
-    private String customerEmail;
-    private BookDTO book;
 }
