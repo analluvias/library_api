@@ -88,7 +88,7 @@ public class BookController {
 
     @PutMapping("/{id}")
     @ApiOperation("UPDATE A BOOK BY ID") // dando nome no swagger
-    public BookDTO update( @PathVariable Long id, @RequestBody BookDTO dto){
+    public BookDTO update( @PathVariable Long id, @RequestBody @Valid BookDTO dto){
 
         // informando que estou updating livro de id ____
         log.info("updating book of id: {}", id);

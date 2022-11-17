@@ -4,6 +4,7 @@ import com.example.libraryapi.api.dto.BookDTO;
 import com.example.libraryapi.exception.BusinessException;
 import com.example.libraryapi.model.entity.Book;
 import com.example.libraryapi.service.BookService;
+import com.example.libraryapi.service.LoanService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
@@ -47,6 +48,9 @@ class BookControllerTest {
 
     @MockBean //mock utilizado pelo SpringBoot
     BookService service;
+
+    @MockBean
+    LoanService loanService;
 
     @Test
     @DisplayName("deve criar um livro com sucesso")
