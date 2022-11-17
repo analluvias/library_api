@@ -1,5 +1,5 @@
 [![Build Status](https://app.travis-ci.com/analluvias/library_api.svg?token=QakQNFzRNRnVuBjrLTyf&branch=main)](https://app.travis-ci.com/analluvias/library_api)
-
+[![codecov](https://codecov.io/gh/analluvias/library_api/branch/main/graph/badge.svg?token=YTDQAYHTMW)](https://codecov.io/gh/analluvias/library_api)
 # Projeto lybrary-api #
 
 ## Características do Projeto ##
