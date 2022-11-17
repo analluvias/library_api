@@ -4,7 +4,7 @@
 
 ## Características do Projeto ##
 
-### 100% testado ###
+### Código testado ###
 ### Uso de ControllerAdvice ###
 ### Documentado com Swagger ###
 ### Uso do spring-boot-starter-actuator -> com configuração no swaggerconfig pra funcionar ###

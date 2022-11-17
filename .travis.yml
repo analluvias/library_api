@@ -4,3 +4,5 @@ jdk:
 dist: trusty
 before_install:
   - chmod +x mvnw
+after_success:
+  - bash <(curl https://codecov.io/bash)
