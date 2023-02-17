@@ -43,6 +43,11 @@ class BookControllerTest {
 
     static String BOOK_API = "/api/books";
 
+    // spybean também é uma opção quando eu quiser usar um método real
+    // por exemplo: usar um modelmapper existente ao inves de simular
+    // a transformação de um CarroDto em um Carro com BDDMockito.given
+    // eu já uso o modelMapper direto -> pesquisar melhor spybean
+
     @Autowired //injetando o MockMvc --> que vai simular uma requisição HTTP para a api
     MockMvc mvc;
 
